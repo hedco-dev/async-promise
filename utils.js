@@ -1,29 +1,31 @@
-'use strict';
+const createEachPromise = eachFunction => {
+  return (collection, itemCallback) => {
+    return new Promise((resolve, reject) => {
+      const results = [];
 
-let createEachPromise = (eachFunction) => (collection, itemCallback) => {
-  return new Promise((resolve, reject) => {
-    eachFunction(collection, (item, done) => {
-      try {
-        let callbackResult = itemCallback(item);
-        if(!callbackResult) {
-          throw new Error('itemCallback should return a Promise.');
+      eachFunction(collection, (item, done) => {
+        try {
+          const callbackResult = itemCallback(item);
+          if (!callbackResult) {
+            throw new Error('itemCallback should return a Promise.');
+          }
+
+          callbackResult.then(result => {
+            results.push(result);
+            done(null);
+          }).catch(done);
+        } catch (err) {
+          done(err);
         }
+      }, err => {
+        if (err) return reject(err);
 
-        callbackResult.then((result) => {
-          done(null, result);
-        }).catch(done);
-      }
-      catch(err) {
-        done(err);
-      }
-    }, (err, results) => {
-      if(err) return reject(err);
-
-      resolve(results);
+        resolve(results);
+      });
     });
-  });
+  };
 };
 
 module.exports = {
   createEachPromise
-}
+};
