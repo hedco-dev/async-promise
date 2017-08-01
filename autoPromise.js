@@ -44,22 +44,3 @@ module.exports = (properties) => {
     });
   });
 };
-
-//sample code
-// async.autoPromise({
-//   a: (cb) => {
-//     cb(null, 2);
-//   },
-//   b: Promise.resolve(3),
-//   c: ['a', 'b', (results) => {
-//     return new Promise((resolve, reject) => {
-//       setTimeout(() => {
-//         resolve(results.a + results.b);
-//       });
-//     });
-//   }]
-// }).then((results) => {
-//   console.log(results);
-// }).catch((err) => {
-//   console.log('err', err);
-// });
