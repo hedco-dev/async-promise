@@ -1,4 +1,3 @@
-'use strict';
 const utils = require('./utils');
 const async = require('async');
 
